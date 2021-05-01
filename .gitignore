@@ -1,0 +1,15 @@
+# tmp folders
+hdmi_project.cache/
+hdmi_project.hw/
+hdmi_project.runs/
+
+# generic files -- defininitely overkill
+*.log
+*.rpt
+*.jou
+*.wdf
+*.rst
+*.pb
+*.str
+*.cache
+*.wpc
