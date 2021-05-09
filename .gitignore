@@ -2,6 +2,8 @@
 hdmi_project.cache/
 hdmi_project.hw/
 hdmi_project.runs/
+hdmi_project.ip_user_files/
+hdmi_project.sim/
 
 # generic files -- defininitely overkill
 *.log

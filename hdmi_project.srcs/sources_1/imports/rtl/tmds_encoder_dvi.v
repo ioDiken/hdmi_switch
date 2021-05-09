@@ -14,6 +14,12 @@ module tmds_encoder_dvi(
     output reg [9:0] o_tmds     // encoded TMDS data
     );
 
+    // control data encoding
+    parameter CTRL0 =10'b1101010100;
+    parameter CTRL1 =10'b0010101011;
+    parameter CTRL2 =10'b0101010100;
+    parameter CTRL3 =10'b1010101011;
+
     // select basic encoding based on the ones in the input data
     wire [3:0] d_ones = {3'b0,i_data[0]} + {3'b0,i_data[1]} + {3'b0,i_data[2]}
         + {3'b0,i_data[3]} + {3'b0,i_data[4]} + {3'b0,i_data[5]}
@@ -49,16 +55,16 @@ module tmds_encoder_dvi(
     begin
         if (i_rst)
         begin
-            o_tmds <= 10'b1101010100;  // equivalent to ctrl 2'b00
+            o_tmds <= CTRL0;  // equivalent to ctrl 2'b00
             bias <= 5'sb00000;
         end
         else if (i_de == 0)  // send control data in blanking interval
         begin
             case (i_ctrl)  // ctrl sequences (always have 7 transitions)
-                2'b00:   o_tmds <= 10'b1101010100;
-                2'b01:   o_tmds <= 10'b0010101011;
-                2'b10:   o_tmds <= 10'b0101010100;
-                default: o_tmds <= 10'b1010101011;
+                2'b00:   o_tmds <= CTRL0;
+                2'b01:   o_tmds <= CTRL1;
+                2'b10:   o_tmds <= CTRL2;
+                default: o_tmds <= CTRL3;
             endcase
             bias <= 5'sb00000;
         end
