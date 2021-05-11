@@ -83,7 +83,7 @@ module decoder (
     // 1:10 de-serializer working at x5 pclk rate
     //
     /////////////////////////////////////////////
-    serdes_1_10_diff des_0 (
+    deserializer_1to10 des_0 (
         .pclk(pclk),
         .bitslip(bitslipx1p25),
         .pclkx5(pclkx5),
