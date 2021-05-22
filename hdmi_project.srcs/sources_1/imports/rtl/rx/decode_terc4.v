@@ -17,6 +17,7 @@
  */
 
 `timescale 1 ps / 1ps
+`default_nettype none
 
 module decode_terc4 (
   input            clkin,    // pixel clock input

@@ -17,14 +17,21 @@
 module display_demo_dvi(
     input  wire CLK,                // board clock: 100 MHz on Arty/Basys3/Nexys
     input  wire RST_BTN,            // reset button
-    inout  wire hdmi_tx_cec,        // CE control bidirectional
-    input  wire hdmi_tx_hpd,        // hot-plug detect
-    inout  wire hdmi_tx_rscl,       // DDC bidirectional
-    inout  wire hdmi_tx_rsda,       // DDC bidirectional
-    output wire hdmi_tx_clk_n,      // HDMI clock differential negative
-    output wire hdmi_tx_clk_p,      // HDMI clock differential positive
-    output wire [2:0] hdmi_tx_n,    // Three HDMI channels differential negative
-    output wire [2:0] hdmi_tx_p     // Three HDMI channels differential positive
+    output wire [3:0] PM_DVI_R,
+    output wire [3:0] PM_DVI_G,
+    output wire [3:0] PM_DVI_B,
+    output wire PM_DVI_CLK,
+    output wire PM_DVI_HS,
+    output wire PM_DVI_VS,
+    output wire PM_DVI_DE
+    // inout  wire hdmi_tx_cec,        // CE control bidirectional
+    // input  wire hdmi_tx_hpd,        // hot-plug detect
+    // inout  wire hdmi_tx_rscl,       // DDC bidirectional
+    // inout  wire hdmi_tx_rsda,       // DDC bidirectional
+    // output wire hdmi_tx_clk_n,      // HDMI clock differential negative
+    // output wire hdmi_tx_clk_p,      // HDMI clock differential positive
+    // output wire [2:0] hdmi_tx_n,    // Three HDMI channels differential negative
+    // output wire [2:0] hdmi_tx_p     // Three HDMI channels differential positive
     );
 
     // Display Clocks
@@ -99,30 +106,38 @@ module display_demo_dvi(
          .H_RES(1280),   // horizontal resolution
          .V_RES(720)     // vertical resolution
      )
-     test_card_inst (
-         .i_x(sx),
-         .i_y(sy),
-         .o_red(red),
-         .o_green(green),
-         .o_blue(blue)
-     );
-
-    // Test Card: Gradient - ENABLE ONE TEST CARD INSTANCE ONLY
-    localparam GRAD_STEP = 2;  // step right shift: 480=2, 720=2, 1080=3
-    test_card_gradient test_card_inst (
-        .i_y(sy[GRAD_STEP+7:GRAD_STEP]),
-        .i_x(sx[5:0]),
+    test_card_inst (
+        .i_x(sx),
+        .i_y(sy),
         .o_red(red),
         .o_green(green),
         .o_blue(blue)
     );
 
+    // // Test Card: Gradient - ENABLE ONE TEST CARD INSTANCE ONLY
+    // localparam GRAD_STEP = 2;  // step right shift: 480=2, 720=2, 1080=3
+    // test_card_gradient test_card_inst (
+    //     .i_y(sy[GRAD_STEP+7:GRAD_STEP]),
+    //     .i_x(sx[5:0]),
+    //     .o_red(red),
+    //     .o_green(green),
+    //     .o_blue(blue)
+    // );
+
     pmod_headers pmod (
         .red(red),
         .green(green),
         .blue(blue),
-        .clk(pix_clk)
-    )
+        .clk(pix_clk),
+        .de(de),
+        .PM_R(PM_DVI_R),
+        .PM_G(PM_DVI_G),
+        .PM_B(PM_DVI_B),
+        .PM_CLK(PM_DVI_CLK),
+        .PM_HS(PM_DVI_HS),
+        .PM_VS(PM_DVI_VS),
+        .PM_DE(PM_DVI_DE)
+    );
 
     // TMDS Encoding and Serialization
     // wire tmds_ch0_serial, tmds_ch1_serial, tmds_ch2_serial, tmds_chc_serial;

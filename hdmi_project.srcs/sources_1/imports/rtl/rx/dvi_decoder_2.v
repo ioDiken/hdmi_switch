@@ -28,6 +28,7 @@
  */
 
 `timescale 1 ns / 1ps
+`default_nettype none
 
 module dvi_decoder (
   input wire 	     rx_clk, // tmds clock, already as BUFG
