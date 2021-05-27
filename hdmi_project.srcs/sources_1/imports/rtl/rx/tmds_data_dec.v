@@ -22,10 +22,10 @@
 // in an attempt to get around an optimizer bug in synthesis
 
 module tmds_data_dec(
-		     input 	  clk,
-		     input 	  de,
-		     input [9:0]  tmds_dat,
-		     output [7:0] dec_dat
+		     input wire	  clk,
+		     input wire	  de,
+		     input wire [9:0]  tmds_dat,
+		     output wire [7:0] dec_dat
 		     );
 
    reg [8:0] 			  tmds_d9;

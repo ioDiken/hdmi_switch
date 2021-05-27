@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`default_nettype none
+// `default_nettype none
 
 // Project F: Display Clocks Test Bench
 // (C)2019 Will Green, Open source hardware released under the MIT License

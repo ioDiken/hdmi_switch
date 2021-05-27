@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`default_nettype none
+// `default_nettype none
 
 // Project F: Display TMDS Encoder for DVI
 // (C)2019 Will Green, Open source hardware released under the MIT License

@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`default_nettype none
+// `default_nettype none
 
 // Project F: Display Controller DVI Demo
 // (C)2020 Will Green, Open source hardware released under the MIT License

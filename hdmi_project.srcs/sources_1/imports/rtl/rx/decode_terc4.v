@@ -17,12 +17,12 @@
  */
 
 `timescale 1 ps / 1ps
-`default_nettype none
+//`default_nettype none
 
 module decode_terc4 (
-  input            clkin,    // pixel clock input
-  input            rstin,    // async. reset input (active high)
-  input      [9:0] din,      // data inputs: expect registered
+  input wire            clkin,    // pixel clock input
+  input wire            rstin,    // async. reset input (active high)
+  input wire      [9:0] din,      // data inputs: expect registered
   output reg [3:0] dout      // data outputs
 );
    reg [9:0] 	   din_r;

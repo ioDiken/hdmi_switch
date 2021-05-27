@@ -1,33 +1,33 @@
 `timescale 1ns / 1ps
-`default_nettype none
+// `default_nettype none
 
 module pmod_headers(
     // Inputs
-    input wire [7:0] red,
-    input wire [7:0] green,
-    input wire [7:0] blue,
-    input wire [1:0] ctrl,
-    input wire clk,
-    input wire de,
+    input wire [7:0] i_red,
+    input wire [7:0] i_green,
+    input wire [7:0] i_blue,
+    input wire [1:0] i_ctrl,
+    input wire i_clk,
+    input wire i_de,
 
     // PMOD header
     // how to make 24b?
-    output wire [3:0] PM_R,
-    output wire [3:0] PM_G,
-    output wire [3:0] PM_B,
-    output wire PM_CLK,
-    output wire PM_HS,
-    output wire PM_VS,
-    output wire PM_DE
+    output wire [3:0] o_pm_r,
+    output wire [3:0] o_pm_g,
+    output wire [3:0] o_pm_b,
+    output wire o_pm_clk,
+    output wire o_pm_hs,
+    output wire o_pm_vs,
+    output wire o_pm_de
     );
 
-    assign PM_R = red[3:0];
-    assign PM_B = blue[3:0];
-    assign PM_G = green[3:0];
-    assign PM_CLK = clk;
-    assign PM_HS = ctrl[0];
-    assign PM_VS = ctrl[1];
-    assign PM_DE = de;
+    assign o_pm_r = i_red[3:0];
+    assign o_pm_b = i_blue[3:0];
+    assign o_pm_g = i_green[3:0];
+    assign o_pm_clk = i_clk;
+    assign o_pm_hs = i_ctrl[0];
+    assign o_pm_vs = i_ctrl[1];
+    assign o_pm_de = i_de;
 endmodule
 
 // module display_demo_dvi_pmod3(

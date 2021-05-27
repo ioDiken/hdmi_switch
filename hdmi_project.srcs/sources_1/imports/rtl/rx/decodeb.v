@@ -97,6 +97,7 @@ module decodeb (
   ///////////////////////////////////////
   // Phase Alignment Instance
   ///////////////////////////////////////
+  wire flipgear;
   phsaligner phsalgn_0 (
      .rst(reset),
      .clk(pclk),

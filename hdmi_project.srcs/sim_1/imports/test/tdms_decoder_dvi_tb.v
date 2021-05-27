@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`default_nettype none
+// `default_nettype none
 
 // assert will display a failure if the values are unequal
 `define assert(signal, value) \

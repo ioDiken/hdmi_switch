@@ -28,7 +28,7 @@
  */
 
 `timescale 1 ns / 1ps
-`default_nettype none
+// `default_nettype none
 
 module dvi_decoder (
   input wire 	     rx_clk, // tmds clock, already as BUFG
@@ -393,7 +393,9 @@ module dvi_decoder (
   //
   BUFG pclkbufg (.I(clk_pixel_raw), .O(p_clk));
 
-  BUFR pclkx1p25bufg (.CLR(1'b0), .CE(1'b1), .I(clk_pixel_x1p25_raw), .O(px1p25_clk));
+   wire px1p25_clk;
+
+   BUFR pclkx1p25bufg (.CLR(1'b0), .CE(1'b1), .I(clk_pixel_x1p25_raw), .O(px1p25_clk));
    BUFG pclkx1p25bufgdbg (.I(clk_pixel_x1p25_dbg_raw), .O(px1p25_dbg_clk));  // global buffer to ILAs
    
   //////////////////////////////////////////////////////////////////
@@ -523,11 +525,11 @@ module dvi_decoder (
 
   assign psalgnerr = red_psalgnerr | blue_psalgnerr | green_psalgnerr;
 
-   /*
    wire [7:0] red_q1;
    wire [7:0] blu_q1;
    wire [7:0] grn_q1;
 
+   /*
    reg [7:0] red_q2;
    reg [7:0] blu_q2;
    reg [7:0] grn_q2;
