@@ -1,26 +1,10 @@
-/*
-    This program is free software: you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation, either version 3 of the License, or
-     (at your option) any later version.
- 
-     This program is distributed in the hope that it will be useful,
-     but WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
- 
-     You should have received a copy of the GNU General Public License
-     along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
- 
-     Copyright 2016 Andrew 'bunnie' Huang, all rights reserved 
- */
 //
 // Module: 	DRAM16XN
 //
 // Description: Distributed SelectRAM example
 //		Dual Port 16 x N-bit
 //
+// Device: 	Spartan-3 Family
 //---------------------------------------------------------------------------------------
 
 module DRAM16XN #(parameter data_width = 20)
@@ -36,8 +20,8 @@ module DRAM16XN #(parameter data_width = 20)
 input [data_width-1:0]DATA_IN;
 input [3:0] ADDRESS;
 input [3:0] ADDRESS_DP;
-input wire WRITE_EN;
-input wire CLK;
+input WRITE_EN;
+input CLK;
 
 output [data_width-1:0]O_DATA_OUT_DP;
 output [data_width-1:0]O_DATA_OUT;

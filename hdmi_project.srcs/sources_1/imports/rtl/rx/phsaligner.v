@@ -1,68 +1,8 @@
-//////////////////////////////////////////////////////////////////////////////
-//
-//  Xilinx, Inc. 2010                 www.xilinx.com
-//
-//  XAPP xxx - TMDS serial stream phase aligner
-//
-//////////////////////////////////////////////////////////////////////////////
-//
-//  File name :       phasealigner.v
-//
-//  Description :     This module determines whether the Spartan-6 IOSERDES
-//                    has validate the incoming TMDS data stream 
-//                    
-//
-//  Note:             
-//
-//  Author :    Bob Feng 
-//
-//  Disclaimer: LIMITED WARRANTY AND DISCLAMER. These designs are
-//              provided to you "as is". Xilinx and its licensors make and you
-//              receive no warranties or conditions, express, implied,
-//              statutory or otherwise, and Xilinx specifically disclaims any
-//              implied warranties of merchantability, non-infringement,or
-//              fitness for a particular purpose. Xilinx does not warrant that
-//              the functions contained in these designs will meet your
-//              requirements, or that the operation of these designs will be
-//              uninterrupted or error free, or that defects in the Designs
-//              will be corrected. Furthermore, Xilinx does not warrantor
-//              make any representations regarding use or the results of the
-//              use of the designs in terms of correctness, accuracy,
-//              reliability, or otherwise.
-//
-//              LIMITATION OF LIABILITY. In no event will Xilinx or its
-//              licensors be liable for any loss of data, lost profits,cost
-//              or procurement of substitute goods or services, or for any
-//              special, incidental, consequential, or indirect damages
-//              arising from the use or operation of the designs or
-//              accompanying documentation, however caused and on any theory
-//              of liability. This limitation will apply even if Xilinx
-//              has been advised of the possibility of such damage. This
-//              limitation shall apply not-withstanding the failure of the
-//              essential purpose of any limited remedies herein.
-//
-//  Copyright © 2006 Xilinx, Inc.
-//  All rights reserved
-//
-//////////////////////////////////////////////////////////////////////////////
-//
 `timescale 1 ns / 1ps
-`define SIMULATION 1
-
-// here's what this module does.
-// 1. searches for an incoming control token
-// 2. when it finds one, makes sure it sticks around at least CTKNCNTWD.
-// 3. if it can't find one within SRCHTIMERWD, try a new bitslip and/or gearbox setting.
-//    keep on trying bitslips and gear settings over and over again ewvery SRCHTIMERWD
-//    until we've found a CTKNCNTWD.
-// 4. once the token has stuck around for the pre-determined number of cycles, repeat
-//    the search to confirm it. (this function is degenerate in this implementation)
-// 5. once setting has been confirmed, assume it never changes.
 
 module phsaligner # (
   parameter OPENEYE_CNT_WD = 3, // valid open eye counter width
-//  parameter CTKNCNTWD      = 7, // Control Token Counter Width (dvi spec is 128)
-  parameter CTKNCNTWD      = 3, // Control Token Counter Width (hdmi spec is 8)
+  parameter CTKNCNTWD      = 7, // Control Token Counter Width
   parameter SRCHTIMERWD    = 12 // Idle Timer Width
 )
 (
