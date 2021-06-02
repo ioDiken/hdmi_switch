@@ -1,33 +1,3 @@
-----------------------------------------------------------------------------------
--- Engineer: Mike Field <hamster@snap.net.nz>
---
--- Module Name: edid_rom - Behavioral
---
--- Description: A simple EDID ROM, configured for 1920x1080@60Hz, HDMI format.
---
-----------------------------------------------------------------------------------
--- The MIT License (MIT)
--- 
--- Copyright (c) 2015 Michael Alan Field
--- 
--- Permission is hereby granted, free of charge, to any person obtaining a copy
--- of this software and associated documentation files (the "Software"), to deal
--- in the Software without restriction, including without limitation the rights
--- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
--- copies of the Software, and to permit persons to whom the Software is
--- furnished to do so, subject to the following conditions:
--- 
--- The above copyright notice and this permission notice shall be included in
--- all copies or substantial portions of the Software.
--- 
--- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
--- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
--- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
--- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
--- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
--- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
--- THE SOFTWARE.
-----------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -45,31 +15,117 @@ end entity;
 
 architecture Behavioral of edid_rom is
 
-   type a_edid_rom is array (0 to 127) of std_logic_vector(7 downto 0);
+   type a_edid_rom is array (0 to 255) of std_logic_vector(7 downto 0);
 
-	-- The following rom is for 1024 x 768
-   -- signal edid_rom : a_edid_rom := (
-	   --x"00", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"00", x"3D", x"17", x"32", x"12", x"2A", x"6A", x"BF", x"00",
-		--x"05", x"17", x"01", x"03", x"80", x"28", x"1E", x"00", x"08", x"00", x"00", x"00", x"00", x"00", x"00", x"00",
-		--x"00", x"00", x"00", x"2E", x"00", x"00", x"01", x"01", x"01", x"01", x"01", x"01", x"01", x"01", x"01", x"01",
-		--x"01", x"01", x"01", x"01", x"01", x"01", x"B2", x"0C", x"00", x"40", x"41", x"00", x"26", x"30", x"18", x"88",
-		--x"36", x"00", x"28", x"1E", x"00", x"00", x"00", x"1E", x"00", x"00", x"00", x"FC", x"00", x"4D", x"31", x"20",
-		--x"44", x"56", x"49", x"20", x"6D", x"69", x"78", x"65", x"72", x"0A", x"00", x"00", x"00", x"10", x"00", x"00",
-		--x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"10",
-		--x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"34"
-      --);*/
-
-	-- The following rom is for 1920 x 1080
    signal edid_rom : a_edid_rom := (
-    x"00", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"00", x"10", x"EC", x"03", x"00", x"00", x"00", x"00", x"00",
-    x"02", x"1A", x"01", x"03", x"A1", x"33", x"1D", x"78", x"0A", x"EC", x"18", x"A3", x"54", x"46", x"98", x"25",
-    x"0F", x"48", x"4C", x"21", x"08", x"00", x"B3", x"00", x"D1", x"C0", x"81", x"80", x"81", x"C0", x"A9", x"C0",
-    x"01", x"01", x"01", x"01", x"01", x"01", x"02", x"3A", x"80", x"18", x"71", x"38", x"2D", x"40", x"58", x"2C",
-    x"45", x"00", x"80", x"38", x"74", x"00", x"00", x"1E", x"00", x"00", x"00", x"FC", x"20", x"44", x"69", x"67",
-    x"69", x"6C", x"65", x"6E", x"74", x"44", x"56", x"49", x"2D", x"33", x"00", x"00", x"00", x"10", x"00", x"00",
-    x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"10",
-    x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"09"
-    );
+      ------- BASE EDID Bytes 0 to 35 -----------------------------
+      -- Header
+      x"00",x"FF",x"FF",x"FF",x"FF",x"FF",x"FF",x"00",
+      -- EISA ID - Manufacturer, Product,
+      x"04",x"43", x"07",x"f2", 
+      -- EISA ID -Serial
+      x"01",x"00",x"00",x"00",
+      -- Model/year
+      x"FF", x"11",
+      -- EDID Version
+      x"01", x"04",
+      ------------------------------------
+      ------------------------------------
+      -- Digital Video using DVI, 8 bits
+      --- x"81",   -- Checksum 0xB6 
+      ------------------------------------
+      -- Digital Video using HDMI, 8 bits
+      x"A2", -- Checksum 0x95 
+      ------------------------------------
+      -- Aspect ratio, flag, gamma
+      x"4f", x"00", x"78", 
+      ------------------------------------      
+      -- Features 
+      x"3E",
+      -- Display x,y Chromaticity V Breaks here!
+      x"EE", x"91", x"a3", x"54", x"4c", x"99", x"26", x"0f", x"50", x"54",
+      -- Established timings
+      x"20", x"00", x"00",
+      -- Standard timings
+      x"01", x"01", x"01", x"01", x"01", x"01", x"01", x"01", 
+      x"01", x"01", x"01", x"01", x"01", x"01", x"01", x"01", 
+      ------- End of BASE EDID ---------------------------------
+
+      ----- 18 byte data block 1080p --------
+      -- Pixel clock
+      x"02",x"3A",
+      -- Horizontal 1920 with 280 blanking
+      x"80", x"18", x"71",
+      -- Vertical 1080 with 45 lines blanking
+      x"38", x"2D", x"40",
+      -- Horizontal front porch
+      x"58",x"2C",
+      -- Vertical front porch
+      x"04",x"05",
+      -- Horizontal and vertical image size
+      x"0f", x"48", x"42",
+      -- Horizontal and vertical boarder
+      x"00", x"00",
+      -- Options (non-interlaces, not 3D, syncs...)
+      x"1E",
+
+      ----- 18 byte data block 1080i --------
+      -- Pixel clock
+      x"01",x"1D",
+      -- Horizontal 1920 with 280 blanking
+      x"80", x"18", x"71",
+      -- Vertical 1080 with 45 lines blanking
+      x"1C", x"16", x"20",
+      -- Horizontal front porch
+      x"58",x"2C",
+      -- Vertical front porch -- SEEMS WRONG!
+      x"25",x"00",
+      -- Horizontal and vertical image size
+      x"0f", x"48", x"42",
+      -- Horizontal and vertical boarder
+      x"00", x"00",
+      -- Options (non-interlaces, not 3D, syncs...)
+      x"9E",
+
+      ----- 18 byte data block 720p --------
+      -- Pixel clock
+      x"01",x"1D",
+      -- Horizontal 1920 with 280 blanking
+      x"00", x"72", x"51",
+      -- Vertical 1080 with 45 lines blanking
+      x"D0", x"1E", x"20",
+      -- Horizontal front porch
+      x"6E",x"28",
+      -- Vertical front porch -- SEEMS WRONG!
+      x"55",x"00",
+      -- Horizontal and vertical image size
+      x"0f", x"48", x"42",
+      -- Horizontal and vertical boarder
+      x"00", x"00",
+      -- Options (non-interlaces, not 3D, syncs...)
+      x"1E",
+
+      ----- 18 byte data block 720p --------
+      -- Monitor name ASCII descriptor
+      x"00", x"00", x"00", x"FC", x"00",
+      -- ASCII name - "ABC LCD47w[lf] "
+      x"48", x"61", x"6D", x"73", x"74", x"65", x"72", x"6B",
+      x"73", x"0A", x"20", x"20", x"20",
+
+      ----- End of EDID block
+      -- Extension flag & checksum
+      x"01", x"74",
+      
+       x"02", x"03", x"18", x"72", x"47", x"90", x"85", x"04", x"03", x"02", x"07", x"06", x"23", x"09", x"07", x"07",
+       x"83", x"01", x"00", x"00", x"65", x"03", x"0C", x"00", x"10", x"00", x"8E", x"0A", x"D0", x"8A", x"20", x"E0",
+       x"2d", x"10", x"10", x"3E", x"96", x"00", x"1F", x"09", x"00", x"00", x"00", x"18", x"8E", x"0A", x"D0", x"8A",
+       x"20", x"E0", x"2D", x"10", x"10", x"3E", x"96", x"00", x"04", x"03", x"00", x"00", x"00", x"18", x"8E", x"0A",
+       x"A0", x"14", x"51", x"F0", x"16", x"00", x"26", x"7C", x"43", x"00", x"1F", x"09", x"00", x"00", x"00", x"98",
+       x"8E", x"0A", x"A0", x"14", x"51", x"F0", x"16", x"00", x"26", x"7C", x"43", x"00", x"04", x"03", x"00", x"00",
+       x"00", x"98", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00",
+       x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"C9"
+      
+      );
 
    signal sclk_delay  : std_logic_vector(2 downto 0);
    signal sdat_delay  : unsigned(6 downto 0);
